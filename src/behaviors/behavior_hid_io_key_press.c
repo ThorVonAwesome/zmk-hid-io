@@ -14,6 +14,8 @@
 #include <zmk/hid.h>
 #include <zephyr/input/input.h>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <zmk/hid-io/hid_joystick.h>
+#include <zmk/hid-io/endpoints.h>
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
@@ -24,17 +26,15 @@ static int behavior_hid_io_key_press_init(const struct device *dev) { return 0; 
 static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
     LOG_DBG("position %d HID IO BUTTON 0x%02X", event.position, binding->param1);
-    const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
-    input_report_key(dev, INPUT_BTN_0 + binding->param1, 1, true, K_FOREVER);
-    return ZMK_BEHAVIOR_OPAQUE;
+    zmk_hid_joy2_button_press((zmk_joystick_button_t)binding->param1);
+    return zmk_endpoints_send_joystick_report_alt();
 }
 
 static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
                                       struct zmk_behavior_binding_event event) {
     LOG_DBG("position %d HID IO BUTTON 0x%02X", event.position, binding->param1);
-    const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
-    input_report_key(dev, INPUT_BTN_0 + binding->param1, 0, true, K_FOREVER);
-    return ZMK_BEHAVIOR_OPAQUE;
+    zmk_hid_joy2_button_release((zmk_joystick_button_t)binding->param1);
+    return zmk_endpoints_send_joystick_report_alt();
 }
 
 static const struct behavior_driver_api behavior_hid_io_key_press_driver_api = {
