@@ -17,10 +17,6 @@
 struct zmk_hid_joystick_report_body_alt {
     int8_t d_x;
     int8_t d_y;
-    int8_t d_z;
-    int8_t d_rx;
-    int8_t d_ry;
-    int8_t d_rz;
     zmk_joystick_button_flags_t buttons;
 } __packed;
 struct zmk_hid_joystick_report_alt {
