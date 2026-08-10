@@ -16,8 +16,6 @@
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <zmk/hid-io/hid_joystick.h>
 #include <zmk/hid-io/endpoints.h>
-#include <zmk/keys.h>
-#include <dt-bindings/zmk/keys.h>
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
@@ -50,26 +48,10 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
     LOG_DBG("position %d HID IO BUTTON 0x%02X", event.position, binding->param1);
     switch (binding->param1) {
-    case DPAD_LEFT:
-        dpad_left = true; update_dpad_axes();
-        zmk_hid_keyboard_press((zmk_key_t)LEFT);
-        zmk_endpoints_send_report(HID_USAGE_KEY);
-        break;
-    case DPAD_RIGHT:
-        dpad_right = true; update_dpad_axes();
-        zmk_hid_keyboard_press((zmk_key_t)RIGHT);
-        zmk_endpoints_send_report(HID_USAGE_KEY);
-        break;
-    case DPAD_UP:
-        dpad_up = true; update_dpad_axes();
-        zmk_hid_keyboard_press((zmk_key_t)UP);
-        zmk_endpoints_send_report(HID_USAGE_KEY);
-        break;
-    case DPAD_DOWN:
-        dpad_down = true; update_dpad_axes();
-        zmk_hid_keyboard_press((zmk_key_t)DOWN);
-        zmk_endpoints_send_report(HID_USAGE_KEY);
-        break;
+    case DPAD_LEFT:  dpad_left = true;  update_dpad_axes(); break;
+    case DPAD_RIGHT: dpad_right = true; update_dpad_axes(); break;
+    case DPAD_UP:    dpad_up = true;    update_dpad_axes(); break;
+    case DPAD_DOWN:  dpad_down = true;  update_dpad_axes(); break;
     default:
         zmk_hid_joy2_button_press((zmk_joystick_button_t)binding->param1);
         break;
@@ -81,26 +63,10 @@ static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
                                       struct zmk_behavior_binding_event event) {
     LOG_DBG("position %d HID IO BUTTON 0x%02X", event.position, binding->param1);
     switch (binding->param1) {
-    case DPAD_LEFT:
-        dpad_left = false; update_dpad_axes();
-        zmk_hid_keyboard_release((zmk_key_t)LEFT);
-        zmk_endpoints_send_report(HID_USAGE_KEY);
-        break;
-    case DPAD_RIGHT:
-        dpad_right = false; update_dpad_axes();
-        zmk_hid_keyboard_release((zmk_key_t)RIGHT);
-        zmk_endpoints_send_report(HID_USAGE_KEY);
-        break;
-    case DPAD_UP:
-        dpad_up = false; update_dpad_axes();
-        zmk_hid_keyboard_release((zmk_key_t)UP);
-        zmk_endpoints_send_report(HID_USAGE_KEY);
-        break;
-    case DPAD_DOWN:
-        dpad_down = false; update_dpad_axes();
-        zmk_hid_keyboard_release((zmk_key_t)DOWN);
-        zmk_endpoints_send_report(HID_USAGE_KEY);
-        break;
+    case DPAD_LEFT:  dpad_left = false;  update_dpad_axes(); break;
+    case DPAD_RIGHT: dpad_right = false; update_dpad_axes(); break;
+    case DPAD_UP:    dpad_up = false;    update_dpad_axes(); break;
+    case DPAD_DOWN:  dpad_down = false;  update_dpad_axes(); break;
     default:
         zmk_hid_joy2_button_release((zmk_joystick_button_t)binding->param1);
         break;
