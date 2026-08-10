@@ -407,7 +407,7 @@ int zmk_hog_send_volume_knob_report_alt(struct zmk_hid_volume_knob_report_body_a
 };
 #endif // IS_ENABLED(CONFIG_ZMK_HID_IO_VOLUME_KNOB)
 
-static int zmk_hog_init(void) {
+static int zmk_hidio_hog_init(void) {
 
     for (size_t i = 0; i < hog_svc_alt.attr_count; i++) {
         // scan the cb from output of BT_GATT_CHARACTERISTIC() macros,
@@ -440,4 +440,4 @@ static int zmk_hog_init(void) {
     return 0;
 }
 
-SYS_INIT(zmk_hog_init, APPLICATION, CONFIG_ZMK_BLE_INIT_PRIORITY);
+SYS_INIT(zmk_hidio_hog_init, APPLICATION, CONFIG_ZMK_BLE_INIT_PRIORITY);
